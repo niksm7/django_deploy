@@ -1,0 +1,73 @@
+{% extends 'blog/basic.html' %}
+{% block title%}Blog Post{% endblock %}
+{% block css %}
+{% endblock %}
+{% block body %}
+<div class="container">
+<div class="row mt-4">
+    <div class="col-md-8 blog-main">
+      <h1 class="pb-4 mb-4 font-italic border-bottom">
+        {{post.title}}
+      </h1>
+      <div class="blog-post">
+        <h2 class="blog-post-title">{{post.head0}}</h2>
+        <p class="blog-post-meta">{{post.pub_date}} <a href="#">Mark</a></p>
+          <br><div class="fb-like" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-layout="button_count" data-action="like" data-size="large" data-share="true"></div><br><br>
+        <p>{{post.chead0}}</p>
+        <h2>{{post.head1}}</h2>
+        <p>{{post.chead1}}</p>
+         <h2>{{post.head2}}</h2>
+        <p>{{post.chead2}}</p>
+        <div class="fb-comments" data-href="http://127.0.0.1:8000/blog/blogpost/{{post.post_id}}" data-width="" data-numposts="5"></div>
+      </div><!-- /.blog-post -->
+
+      <span style="float:right;" id="next_blog">
+       <br><br><br><h5>Next Blog</h5>
+    <a href="{{next_id}}"><h1><svg style="padding-top:-20px" class="bi bi-arrow-right" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M10.146 4.646a.5.5 0 01.708 0l3 3a.5.5 0 010 .708l-3 3a.5.5 0 01-.708-.708L12.793 8l-2.647-2.646a.5.5 0 010-.708z" clip-rule="evenodd"/>
+  <path fill-rule="evenodd" d="M2 8a.5.5 0 01.5-.5H13a.5.5 0 010 1H2.5A.5.5 0 012 8z" clip-rule="evenodd"/>
+    </svg></h1></a>
+        <h5>{{post_next.title|slice:'0:17'}}...</h5>
+        </span>
+      <span style="float:left;" id="prev_blog">
+        <br><br><br><h5>Previous Blog</h5>
+     <a href="{{prev_id}}"><h1><svg class="bi bi-arrow-left" width="1em" height="1em" viewBox="0 0 16 16" fill="currentColor" xmlns="http://www.w3.org/2000/svg">
+  <path fill-rule="evenodd" d="M5.854 4.646a.5.5 0 010 .708L3.207 8l2.647 2.646a.5.5 0 01-.708.708l-3-3a.5.5 0 010-.708l3-3a.5.5 0 01.708 0z" clip-rule="evenodd"/>
+       <path fill-rule="evenodd" d="M2.5 8a.5.5 0 01.5-.5h10.5a.5.5 0 010 1H3a.5.5 0 01-.5-.5z" clip-rule="evenodd"/></svg></h1></a>
+        <h5>{{post_prev.title|slice:'0:17'}}...</h5>
+      </span>
+    </div><!-- /.blog-main -->
+
+    <aside class="col-md-4 blog-sidebar">
+      <div class="p-4 mb-3 bg-light rounded">
+        <h4 class="font-italic">About</h4>
+        <p class="mb-0">My Awesome Cart is an <em>e-commerce website</em> You can search for items and buy them.</p>
+      </div>
+
+      <div class="p-4">
+        <h4 class="font-italic">Contact Us On</h4>
+        <ol class="list-unstyled">
+          <li><a href="https://github.com/niksm7
+">GitHub</a></li>
+          <li><a href="#">Twitter</a></li>
+          <li><a href="#">Facebook</a></li>
+        </ol>
+      </div>
+    </aside><!-- /.blog-sidebar -->
+
+  </div>
+</div>
+{% endblock %}
+
+{% block js %}
+<script>
+  if({{id}}=={{len}}){
+  document.getElementById('next_blog').innerHTML = ` `
+  };
+  if({{id}}==1){
+  document.getElementById('prev_blog').innerHTML = ` `
+  };
+
+
+</script>
+{% endblock %}
