@@ -132,28 +132,38 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
         }
         localStorage.setItem('cart', JSON.stringify(cart));
         document.getElementById('cart').innerHTML = sum;
-        console.log(cart);
         updatePopover(cart);
     }
 
     //if plus or minus button is clicked,change the cart as well as display the value
     $('.divpr').on("click", "button.minus", function() {
         a = this.id.slice(5, );
-        if (cart[a][0] === 0) {
-            console.log("inside if");
-            document.getElementById('div' + a).innerHTML = `<button id="' + a + '" class="btn btn-primary cart">Add to cart</button>`;
-            updateCart(cart);
-        } else {
-            console.log("inside else");
-            cart[a][0] = cart[a][0] - 1;
-            cart[a][0] = Math.max(0, cart[a][0])
-            document.getElementById('val' + a).innerHTML = cart[a][0] + " " + cart[a][2];
-            updateCart(cart);
+        if (cart[a] != undefined) {
+            if (cart[a][0] != undefined) {
+                if (cart[a][0] === 0) {
+                    document.getElementById('div' + a).innerHTML = `<button id="' + a + '" class="btn btn-primary cart">Add to cart</button>`;
+                    updateCart(cart);
+                } else {
+                    cart[a][0] = cart[a][0] - 1;
+                    cart[a][0] = Math.max(0, cart[a][0])
+                    document.getElementById('val' + a).innerHTML = cart[a][0] + " " + cart[a][2];
+                    updateCart(cart);
+                }
+            }
         }
     });
     $('.divpr').on("click", "button.plus", function() {
         a = this.id.slice(4, );
-        cart[a][0] = cart[a][0] + 1;
+        if (cart[a] != undefined) { //change
+            cart[a][0] = cart[a][0] + 1;
+        } else {
+            var idstr = a.toString();
+            qty = 1;
+            name = document.getElementById("name" + idstr).innerHTML;
+            price = document.getElementById("price" + idstr).innerHTML.slice(3, );
+            cart[idstr] = [qty, name, price];
+        }
+
         document.getElementById('val' + a).innerHTML = cart[a][0] + " " + cart[a][2];
         updateCart(cart);
     });
