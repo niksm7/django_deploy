@@ -114,3 +114,5 @@ def checkout(request):
         return render(request, 'shop/checkout.html',{'thank':thank,'id':id})
     return render(request, 'shop/checkout.html')
 
+def cart(request):
+    return render(request,'shop/cart.html')

@@ -53,7 +53,7 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
                     <div class="total-value final-value" id="basket-total"></div>
                 </div>
                 <div class="summary-checkout">
-                    <button class="checkout-cta">Go to Secure Checkout</button>
+                    <a href="/shop/checkout/"><button class="checkout-cta">Go to Secure Checkout</button></a>
                 </div>
             </div>
         </aside>
@@ -66,7 +66,12 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
     var promoPrice;
     var sum = 0;
     var fadeTime = 300;
-    cart = JSON.parse(localStorage.getItem('cart'));
+    if (localStorage.getItem('cart') != "{}") {
+        cart = JSON.parse(localStorage.getItem('cart'));
+    } else {
+        alert("Please add some items to your Cart. Your Cart is empty");
+        window.location = "/shop";
+    }
     for (var item in cart) {
         let ite = item;
         let ite1 = item.slice(2, )
@@ -192,7 +197,6 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
         var id = $(quantityInput).attr('id').slice(3, );
         cart[id][0] = parseInt(quantity);
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(cart);
         /* Update line price display and recalc cart totals */
         productRow.children('.subtotal').each(function() {
             $(this).fadeOut(fadeTime, function() {
@@ -221,7 +225,6 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
         var id = $(removeButton).attr('id').slice(3, );
         delete cart[id]
         localStorage.setItem('cart', JSON.stringify(cart));
-        console.log(cart);
         productRow.slideUp(fadeTime, function() {
             productRow.remove();
             recalculateCart();
