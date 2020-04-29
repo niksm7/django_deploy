@@ -108,7 +108,11 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
                 }
             }
         }
+        {% if user.is_authenticated %}
         popstr = popstr + "</div> <a href='/shop/cart'><button class='btn btn-primary' id='checkout'>View Cart</button></a> <button class='btn btn-primary' onclick='clearCart()' id='clearcart'>Clear Cart</button>";
+        {% else %}
+        popstr = popstr + "</div> <button type='button' class='btn btn-primary mr-2' data-toggle='modal' data-target='#loginModal'>View Cart</button> <button class='btn btn-primary' onclick='clearCart()' id='clearcart'>Clear Cart</button>";
+        {% endif %}
         document.getElementById('popcart').setAttribute('data-content', popstr);
         $('#popcart').popover('show');
     }

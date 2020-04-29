@@ -1,10 +1,13 @@
 import json
+from django.utils.translation import gettext as _
+from django.contrib import messages
+from django.contrib.auth import authenticate,login,logout
 from math import ceil
 import datetime,pytz
 from django.http import HttpResponse
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Product,Contact,Orders,OrderUpdate
-
+from django.contrib.auth.models import User
 def index(request):
     allProds = []
     catprod = Product.objects.values('category','id')
@@ -116,3 +119,56 @@ def checkout(request):
 
 def cart(request):
     return render(request,'shop/cart.html')
+
+def handleSignup(request):
+    if request.method == "POST":
+        #get the post parameters
+        username = request.POST['username']
+        fname = request.POST['fname']
+        lname = request.POST['lname']
+        emailSignup = request.POST['emailSignup']
+        pass1 = request.POST['pass1']
+        pass2 = request.POST['pass2']
+
+        #check for errorneous inputs
+        if len(username)>10:
+            messages.error(request, 'Username must be under 10 characters')
+            return redirect('/shop')
+        if not username.isalnum():
+            messages.error(request,'Username must only contain alpha numeric characters')
+            return redirect('/shop')
+        if pass1 != pass2:
+            messages.error(request, 'Passwords do not match')
+            return redirect('/shop')
+
+
+        #Create the user
+        myuser = User.objects.create_user(username,emailSignup,pass1)
+        myuser.first_name = fname
+        myuser.last_name = lname
+        myuser.save()
+        messages.success(request,'Your account has been successfully created')
+        return redirect('/shop')
+    else:
+        return HttpResponse("404 - NOT FOUND")
+
+def handleLogin(request):
+    if request.method == "POST":
+        #get the post parameters
+        loginusername = request.POST['loginusername']
+        loginpass = request.POST['loginpass']
+        user = authenticate(username=loginusername,password=loginpass)
+        if user is not None:
+            login(request,user)
+            messages.success(request,'Successfully Logged In')
+            return redirect('/shop')
+        else:
+            messages.error(request,'Invalid credentials, Please try again')
+            return redirect('/shop')
+    return HttpResponse('404 - Error Found')
+
+def handleLogout(request):
+    logout(request)
+    messages.success(request,'Successfully logged out')
+    return redirect('/shop')
+
