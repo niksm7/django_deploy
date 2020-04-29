@@ -131,6 +131,9 @@ def handleSignup(request):
         pass2 = request.POST['pass2']
 
         #check for errorneous inputs
+        if User.objects.filter(username=username).exists():
+            messages.error(request,'Username already taken please choose some other username')
+            return redirect('/shop')
         if len(username)>10:
             messages.error(request, 'Username must be under 10 characters')
             return redirect('/shop')
