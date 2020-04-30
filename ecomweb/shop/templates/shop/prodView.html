@@ -12,7 +12,7 @@ margin-top: 23px;
                 <img id="imagepr{{product.id}}" src="/media/{{product.image}}" width="233px" height="385px">
             </div>
             <div class="row">
-                <a href='/shop/checkout'><button class="btn btn-primary mx-2 my-4">Buy Now</button></a>
+                <button class="btn btn-primary mx-2 my-4" id="buy_now">Buy Now</button>
                 <span id="divpr{{product.id}}" class="divpr">
                     <button id="pr{{product.id}}" class="btn btn-primary cart my-4">Add to cart
                     </button></span>
@@ -31,6 +31,7 @@ margin-top: 23px;
 
 {% endblock %} {% block js %}
 <script>
+    var is_start;
     $("#navbarSupportedContent").append(`<form method="get" action="/shop/search/" class="form-inline my-2 my-lg-0">
                 <span id="search"><input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" name="search"></span>
                 <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
@@ -44,6 +45,7 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
         var cart = {};
     } else {
         cart = JSON.parse(localStorage.getItem('cart'));
+        is_start = 1;
         updateCart(cart);
     }
     if(cart[{{product.id}}] != undefined){
@@ -83,7 +85,14 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
         }
         popstr = popstr + "</div> <a href='/shop/cart'><button class='btn btn-primary' id='checkout'>View Cart</button></a>";
         document.getElementById('popcart').setAttribute('data-content', popstr);
-        $('#popcart').popover('show');
+        if (is_start != 0) {
+            console.log(is_start)
+            is_start = is_start - 1;
+        }
+        else {
+            console.log(is_start)
+            $('#popcart').trigger("dblclick");
+        }
     }
 
 
@@ -102,6 +111,27 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
             updatePopover(cart);
         }
     }
+
+    $("#popcart").popover({ trigger: "manual" }).click(function () {
+            window.location = "/shop/cart";
+    })
+    $('#buy_now').on('click',function(){
+        {% if user.is_authenticated %}
+        window.location = '/shop/checkout/';
+        {% else %}
+        $('#login_button').trigger('click');
+        {% endif %}
+    })
+    $("#popcart").popover({ trigger: "manual" }).dblclick(function () {
+        var pop = $(this);
+
+        pop.popover("show")
+        pop.on('shown.bs.popover', function () {
+            setTimeout(function () {
+                pop.popover("hide")
+            }, 5700);
+        })
+    })
 
 
 </script>

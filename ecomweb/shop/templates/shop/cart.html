@@ -53,7 +53,7 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
                     <div class="total-value final-value" id="basket-total"></div>
                 </div>
                 <div class="summary-checkout">
-                    <a href="/shop/checkout/"><button class="checkout-cta">Go to Secure Checkout</button></a>
+                    <button class="checkout-cta">Go to Secure Checkout</button>
                 </div>
             </div>
         </aside>
@@ -231,5 +231,13 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
             updateSumItems();
         });
     }
+
+    $('.checkout-cta').on('click',function(){
+        {% if user.is_authenticated %}
+        window.location = '/shop/checkout/';
+        {% else %}
+        $('#login_button').trigger('click');
+        {% endif %}
+    })
 </script>
 {% endblock %}
