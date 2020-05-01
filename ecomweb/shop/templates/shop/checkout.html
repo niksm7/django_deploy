@@ -1,4 +1,4 @@
-{% extends 'blog/basic.html' %} {% block title%}test Checkout{% endblock %} {% block body %}
+{% extends 'shop/basic.html' %} {% block title%}Checkout{% endblock %} {% block body %}
 
 <body class="bg-light">
     <div class="container">
@@ -17,7 +17,7 @@
 
 
             </div>
-            <form method="post" action="/shop/checkout2/">{% csrf_token %}
+            <form method="post" action="/shop/checkout/">{% csrf_token %}
                 <input type="hidden" name="itemsJson" id="itemsJson" required>
                 <input type="hidden" name="amount" id="amount" required>
                 <div class="col-md-8 order-md-1">
@@ -111,8 +111,14 @@
     }
     var sum = 0;
     for (var item in cart) {
+        if(cart[item][0] == 0){
+            delete cart[item];
+        }
+        else{
         sum = sum + cart[item][0];
+        }
     }
+    localStorage.setItem('cart', JSON.stringify(cart));
     document.getElementById('num_element').innerHTML = sum;
 
 
@@ -120,6 +126,7 @@
     var finalprice = 0
     if ($.isEmptyObject(cart)) {
         alert("Your cart is empty,please add some items to your cart before checking out!")
+        document.location = '/shop';
     } else {
         for (item in cart) {
             let name = cart[item][1];
