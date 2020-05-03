@@ -8,6 +8,7 @@ from django.http import HttpResponse
 from django.shortcuts import render, redirect
 from .models import Product,Contact,Orders,OrderUpdate
 from django.contrib.auth.models import User
+
 def index(request):
     allProds = []
     catprod = Product.objects.values('category','id')
