@@ -1,5 +1,5 @@
 import json
-from django.utils.translation import gettext as _
+from django.http import HttpResponseRedirect
 from django.contrib import messages
 from django.contrib.auth import authenticate,login,logout
 from math import ceil
@@ -133,16 +133,16 @@ def handleSignup(request):
         #check for errorneous inputs
         if User.objects.filter(username=username).exists():
             messages.error(request,'Username already taken please choose some other username')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER', '/'))
         if len(username)>10:
             messages.error(request, 'Username must be under 10 characters')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         if not username.isalnum():
             messages.error(request,'Username must only contain alpha numeric characters')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         if pass1 != pass2:
             messages.error(request, 'Passwords do not match')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
 
         #Create the user
@@ -151,7 +151,7 @@ def handleSignup(request):
         myuser.last_name = lname
         myuser.save()
         messages.success(request,'Your account has been successfully created')
-        return redirect('/shop')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     else:
         return HttpResponse("404 - NOT FOUND")
 
@@ -164,14 +164,14 @@ def handleLogin(request):
         if user is not None:
             login(request,user)
             messages.success(request,'Successfully Logged In')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
         else:
             messages.error(request,'Invalid credentials, Please try again')
-            return redirect('/shop')
+            return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     return HttpResponse('404 - Error Found')
 
 def handleLogout(request):
     logout(request)
     messages.success(request,'Successfully logged out')
-    return redirect('/shop')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
