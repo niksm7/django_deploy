@@ -19,6 +19,10 @@ from django.conf import settings
 from django.conf.urls.static import static
 from . import views
 
+admin.site.site_header = 'CART ADMIN'
+admin.site.title = 'CART ADMIN PANEL'
+admin.site.index_title = "Welcome Cart Admin Panel"
+
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('shop/',include('shop.urls')),

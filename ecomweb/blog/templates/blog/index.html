@@ -1,26 +1,31 @@
 {% extends 'blog/basic.html' %} {% block title%}BLOG{% endblock %} {% block body %}
 <div class="container mt-3" style="color: #42377d;">
     <div class="row my-2">
-    {% for i in products %}
+        {% for i in products %}
 
         <div class="col-md-6">
-            <div class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+            <div
+                class="row no-gutters border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
                 <div class="col p-4 d-flex flex-column position-static">
                     <strong class="d-inline-block mb-2 text-primary">World</strong>
-                    <h3 class="mb-0">{{i.title}}</h3>
+                    <a class="text-dark" href="blogpost/{{i.post_id}}">
+                        <h3 class="mb-0">{{i.title}}</h3>
+                    </a>
                     <div class="mb-1 text-muted">{{i.pub_date}}</div>
                     <p class="card-text mb-auto">{{i.chead0|slice:'0:100'}}</p>
                     <a href="blogpost/{{i.post_id}}" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
-                    <img src="/media/{{i.thumbnail}}" class="bd-placeholder-img" width="200" height="250"  aria-label="Placeholder: Thumbnail"/>
+                    <img src="/media/{{i.thumbnail}}" class="bd-placeholder-img" width="200" height="250"
+                        aria-label="Placeholder: Thumbnail" />
                 </div>
             </div>
         </div>
         {% if forloop.counter|divisibleby:2 %}
-    </div><div class="row my-2">
-    {% endif %}
-    {% endfor %}
-</div>
-{% endblock %}
+    </div>
+    <div class="row my-2">
+        {% endif %}
+        {% endfor %}
+    </div>
+    {% endblock %}
 </div>
