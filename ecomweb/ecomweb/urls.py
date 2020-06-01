@@ -21,7 +21,8 @@ from . import views
 
 admin.site.site_header = 'CART ADMIN'
 admin.site.title = 'CART ADMIN PANEL'
-admin.site.index_title = "Welcome Cart Admin Panel"
+admin.site.index_title = "Welcome To Cart Admin Panel"
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),

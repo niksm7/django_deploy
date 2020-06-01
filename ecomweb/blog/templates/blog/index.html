@@ -12,7 +12,7 @@
                         <h3 class="mb-0">{{i.title}}</h3>
                     </a>
                     <div class="mb-1 text-muted">{{i.pub_date}}</div>
-                    <p class="card-text mb-auto">{{i.chead0|slice:'0:100'}}</p>
+                    <p class="card-text mb-auto"><div class="preview">{{i.content|safe|slice:'0:100'}}...</div></p>
                     <a href="blogpost/{{i.post_id}}" class="stretched-link">Continue reading</a>
                 </div>
                 <div class="col-auto d-none d-lg-block">
@@ -29,3 +29,11 @@
     </div>
     {% endblock %}
 </div>
+{% block js %}
+<script>
+    let previews = document.getElementsByClassName('preview');
+    Array.from(previews).forEach((element)=>{
+        element.innerHTML = element.innerText;
+    })
+</script>
+{% endblock %}

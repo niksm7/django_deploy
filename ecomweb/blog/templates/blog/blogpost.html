@@ -27,12 +27,8 @@ padding-top: 10px;
       </h1>
       <div class="blog-post">
         <h2 class="blog-post-title">{{post.head0}}</h2>
-        <p class="blog-post-meta">{{post.pub_date}} <a href="https://github.com/niksm7">Nikhil</a></p>
-        <p>{{post.chead0}}</p>
-        <h2>{{post.head1}}</h2>
-        <p>{{post.chead1}}</p>
-        <h2>{{post.head2}}</h2>
-        <p>{{post.chead2}}</p>
+        <p class="blog-post-meta">{{post.pub_date}} <a href="https://github.com/niksm7">Nikhil</a>  <span>({{post.views}} views)</span></p>
+        <p>{{post.content|safe}}</p>
       </div>
 
       <!-- Comments -->
