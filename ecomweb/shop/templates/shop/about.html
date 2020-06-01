@@ -4,43 +4,53 @@
 
 {% block body %}
 
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Allerta+Stencil">
+
 <main role="main">
 
   <!-- Main jumbotron for a primary marketing message or call to action -->
   <div class="jumbotron">
     <div class="container">
-      <h1 class="display-3">My Awesome Cart</h1>
-      <p>My Awesome Cart Private Limited, d/b/a Flipkart is an Indian e-commerce company based in Bengaluru, India. It was founded by Sachin Bansal and Binny Bansal in 2007. The company initially focused on book sales, before expanding into other product categories such as consumer electronics, fashion, home essentials & groceries, and lifestyle products.
-
-The service competes primarily with Amazon's Indian subsidiary, and the domestic rival Snapdeal.[5][6] As of March 2017, Flipkart held a 39.5% market share of India's e-commerce industry.[7] Flipkart is significantly dominant in the sale of apparel (a position that was bolstered by its acquisitions of Myntra and Jabong.com), and was described as being "neck and neck" with Amazon in the sale of electronics and mobile phones.[8] Flipkart also owns PhonePe, a mobile payments service based on the Unified Payments Interface (UPI).
-
-In August 2018, U.S.-based retail chain Walmart acquired a 77% controlling stake in Flipkart for US$16 billion, valuing it at $20 billion.</p>
-      <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more &raquo;</a></p>
+      <h1 class="display-3" style="font-family: 'Allerta Stencil', Sans-serif;">My Awesome Cart</h1>
+      <p>In this project I have used Django web framework of python to build a e-commerce website which functions almost
+        like the other e-commerce websites out there in the market. This being one of my major projects has high
+        complexity with respect to the code although the code is understandable.This website can do various operations
+        like you can add the products to cart, view each product seperately and also review them by giving a star rating
+        and writing down your review, then you can go to the cart to increase the quantity of the goods in your cart or
+        remove them from your cart also you will be shown the grand total. Then finally you can checkout but for that
+        also you need to be logged in and once you are logged in you will be shown the checkout page wherein you can
+        fill the details although I have not integrated payment gateway because this is just a trial website. After you
+        have placed you order you will get the order id which you can use to track the order.</p>
     </div>
   </div>
 
   <div class="container">
     <!-- Example row of columns -->
     <div class="row">
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      <div class="column">
+        <img src="/media/shop/images/0.jpeg" class="w3-circle" style="width: 300px;" alt="Car">
       </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
-      </div>
-      <div class="col-md-4">
-        <h2>Heading</h2>
-        <p>Donec sed odio dui. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Vestibulum id ligula porta felis euismod semper. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus.</p>
-        <p><a class="btn btn-secondary" href="#" role="button">View details &raquo;</a></p>
+      <div class="column">
+        <div class="container">
+          <h3 class="w3-xxlarge">NIKHIL MANKANI</h3>
+          <h3 class="w3-xlarge">OWNER</h3>
+          <div class="w3-container" style="width: 630px;">
+            <div class="w3-panel w3-leftbar w3-sand">
+              <p class="w3-xlarge w3-serif"><i>"I am a second year student of IT currently pursuing my Engineering
+                  Degree from Thadomal Shahani College of Engineering. I am more into Django web development with good
+                  understanding of Python being my strongest point."</i></p>
+            </div>
+          </div>
+          <div class="w3-panel w3-large">
+            <a href="https://www.facebook.com/nikhil.mankani"><i class="fa fa-facebook-official w3-hover-opacity" style="font-size:31px;padding:5px"></i></a>
+            <a href="https://www.instagram.com/niksm07/?hl=en"><i class="fa fa-instagram w3-hover-opacity" style="font-size:31px;padding:5px"></i></a>
+            <a href="https://www.linkedin.com/in/nikhil-mankani-1a3bb1176/"><i class="fa fa-linkedin w3-hover-opacity" style="font-size:31px;padding:5px"></i></a>
+            <a href="https://github.com/niksm7"><i class="fa fa-github w3-hover-opacity" style="font-size:48px;padding:5px"></i></a>
+          </div>
+        </div>
       </div>
     </div>
-
-    <hr>
-
   </div> <!-- /container -->
 
 </main>

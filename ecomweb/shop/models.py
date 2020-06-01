@@ -1,6 +1,9 @@
 from django.db import models
 import datetime,pytz
 from django.utils.translation import gettext as _
+from django.contrib.auth.models import User
+import django.utils.timezone as dut
+
 # Create your models here.
 class Product(models.Model):
     product_id = models.AutoField
@@ -52,3 +55,15 @@ class OrderUpdate(models.Model):
 
     def __str__(self):
         return self.update_desc[0:17]+"..."
+
+class ShopReview(models.Model):
+    sno = models.AutoField(primary_key = True)
+    review = models.TextField()
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,on_delete=models.CASCADE)
+    parent = models.ForeignKey('self',on_delete=models.CASCADE,null=True)
+    timestamp = models.DateTimeField(default=dut.now)
+    rating = models.IntegerField(default=1)
+
+    def __str__(self):
+        return self.review[0:13]+"... "+"by "+self.user.username

@@ -6,8 +6,9 @@ from math import ceil
 import datetime,pytz
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Product,Contact,Orders,OrderUpdate
+from .models import Product,Contact,Orders,OrderUpdate,ShopReview
 from django.contrib.auth.models import User
+from shop.templatetags import my_filters,convertInt,extras
 
 def index(request):
     allProds = []
@@ -90,10 +91,17 @@ def tracker(request):
 
 def productview(request,myid):
     #Fetch the product using id
-    product = Product.objects.filter(id=myid)
-    print(type(product[0].id))
+    product = Product.objects.filter(id=myid)[0]
+    reviews = ShopReview.objects.filter(product=product,parent=None)
+    replies = ShopReview.objects.filter(product=product).exclude(parent=None)
+    repDict = {}
+    for reply in replies:
+        if reply.parent.sno not in repDict.keys():
+            repDict[reply.parent.sno] = [reply]
+        else:
+            repDict[reply.parent.sno].append(reply)
     product_all = Product.objects.all()
-    return render(request, 'shop/prodView.html',{'product':product[0],'product_all':product_all})
+    return render(request, 'shop/prodView.html',{'product':product,'product_all':product_all,'reviews':reviews,'replyDict':repDict})
 
 
 def checkout(request):
@@ -176,3 +184,25 @@ def handleLogout(request):
     messages.success(request,'Successfully logged out')
     return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
 
+def postReview(request):
+    if request.method == "POST":
+        review = request.POST.get("review")
+        user = request.user
+        productSno = request.POST.get("productSno")
+        product = Product.objects.filter(id=productSno)[0]
+        parentSno = request.POST.get("parentSno")
+        rating = request.POST.get("rating-value")
+        if parentSno=="":
+            review = ShopReview(review=review,user=user,product=product,rating=rating)
+            review.save()
+            messages.success(request,"Your comment has been posted successfully!")
+        else:
+            parent = ShopReview.objects.filter(sno=parentSno)[0]
+            comment = ShopReview(review=review,user=user,product=product,parent=parent)
+            comment.save()
+            messages.success(request,"Your Reply has been posted successfully!")
+
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
+
+    else:
+        return HttpResponse('404 - Error Found')
