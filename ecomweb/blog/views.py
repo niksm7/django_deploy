@@ -14,6 +14,8 @@ def blogpost(request,id):
     post = Blogpost.objects.filter(post_id=id)[0]
     comments = BlogComment.objects.filter(post=post,parent=None)
     replies = BlogComment.objects.filter(post=post).exclude(parent=None)
+    post.views = post.views + 1
+    post.save()
     repDict = {}
     for reply in replies:
         if reply.parent.sno not in repDict.keys():
@@ -22,18 +24,23 @@ def blogpost(request,id):
             repDict[reply.parent.sno].append(reply)
     products = Blogpost.objects.all()
     range1 = len(products)
-    if id!=range1 and id!=1:
+    print(id)
+    if id==1 and range1<=1:
+        return render(request, 'blog/blogpost.html',
+                      {'post': post, 'id': id, 'next_id': id + 1, 'prev_id': id - 1, 'len': range1,
+                       'post_next': " ", 'post_prev': " ", 'comments': comments,})
+    elif id!=range1 and id!=1:
         post_next = Blogpost.objects.filter(post_id=id + 1)[0]
         post_prev = Blogpost.objects.filter(post_id=id - 1)[0]
         return render(request, 'blog/blogpost.html',
                       {'post': post, 'id': id, 'next_id': id + 1, 'prev_id': id - 1, 'len': range1,
                        'post_next': post_next, 'post_prev': post_prev,'comments':comments,'user':request.user,'replyDict':repDict})
-    elif id==range1:
+    elif id==range1 and id!=1:
         post_prev = Blogpost.objects.filter(post_id=id - 1)[0]
         return render(request, 'blog/blogpost.html',
                       {'post': post, 'id': id, 'next_id': id + 1, 'prev_id': id - 1, 'len': range1,
                        'post_next':" ", 'post_prev': post_prev,'comments':comments,'replyDict':repDict})
-    elif id==1:
+    elif id==1 and range1>1:
         post_next = Blogpost.objects.filter(post_id=id + 1)[0]
         return render(request, 'blog/blogpost.html',
                       {'post': post, 'id': id, 'next_id': id + 1, 'prev_id': id - 1, 'len': range1,

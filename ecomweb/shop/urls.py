@@ -14,4 +14,5 @@ urlpatterns = [
     path("login/",views.handleLogin,name="handleLogin"),
     path("logout/",views.handleLogout,name="handleLogout"),
     path("products/postReview",views.postReview,name="postReview"),
+    path("ajax/cartUpdate/",views.update_cart,name="cartUpdate"),
 ]

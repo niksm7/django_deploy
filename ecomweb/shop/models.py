@@ -67,3 +67,7 @@ class ShopReview(models.Model):
 
     def __str__(self):
         return self.review[0:13]+"... "+"by "+self.user.username
+    
+class Cart(models.Model):
+    user = models.ForeignKey(User,on_delete=models.CASCADE)
+    cart = models.TextField()

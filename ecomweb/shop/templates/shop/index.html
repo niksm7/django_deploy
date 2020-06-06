@@ -92,6 +92,9 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
   Cart(<span id="cart">0</span>)
 </button>`);
     //find out the cart items from local storage
+    {% if user.is_authenticated %}
+    localStorage.setItem('cart',JSON.stringify({{carty|safe}}))
+    {% endif %}
     if (localStorage.getItem('cart') == null) {
         var cart = {};
     } else {
@@ -164,6 +167,12 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
             sum = sum + cart[item][0];
         }
         localStorage.setItem('cart', JSON.stringify(cart));
+        $.ajax({
+        url: 'ajax/cartUpdate/',
+        data: {
+          'cart': JSON.stringify(cart)
+        }
+        });
         document.getElementById('cart').innerHTML = sum;
         updatePopover(cart);
     }
@@ -181,5 +190,12 @@ sagittis lacus vel augue laoreet rutrum faucibus.">
         })
     })
 
+//To refresh page whenever the user navigates from some other page to this one
+if(performance.navigation.type == 2){
+   location.reload(true);
+}
+
 </script>
 {% endblock %}
+
+

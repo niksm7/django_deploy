@@ -6,7 +6,7 @@ from math import ceil
 import datetime,pytz
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
-from .models import Product,Contact,Orders,OrderUpdate,ShopReview
+from .models import Product,Contact,Orders,OrderUpdate,ShopReview,Cart
 from django.contrib.auth.models import User
 from shop.templatetags import my_filters,convertInt,extras
 
@@ -19,7 +19,13 @@ def index(request):
         n = len(prod)
         nSlides = (n // 4) + ceil((n / 4) - (n // 4))
         allProds.append([prod,range(1,nSlides),nSlides])
-    params = {'allProds':allProds}
+    if request.user.is_authenticated:
+        user = request.user
+        get_cart = Cart.objects.filter(user=user)[0]
+        mn = "{}".format(get_cart.cart)
+        params = {'allProds':allProds,'carty':mn}
+    else:
+        params = {'allProds':allProds}
     return render(request,'shop/index.html',params)
 
 def searchMatch1(query,item):
@@ -159,6 +165,9 @@ def handleSignup(request):
         myuser.first_name = fname
         myuser.last_name = lname
         myuser.save()
+        new_cart = Cart(user=myuser,cart='nothing')
+        new_cart.save()
+
         messages.success(request,'Your account has been successfully created')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))
     else:
@@ -206,3 +215,12 @@ def postReview(request):
 
     else:
         return HttpResponse('404 - Error Found')
+    
+def update_cart(request):
+    user = request.user
+    new_cart = request.GET.get('cart',None)
+    get_cart = Cart.objects.filter(user=user)[0]
+    get_cart.cart = new_cart
+    # print(get_cart.cart)
+    get_cart.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER','/'))

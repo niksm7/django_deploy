@@ -197,6 +197,12 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
         var id = $(quantityInput).attr('id').slice(3, );
         cart[id][0] = parseInt(quantity);
         localStorage.setItem('cart', JSON.stringify(cart));
+        $.ajax({
+        url: '/shop/ajax/cartUpdate/',
+        data: {
+          'cart': JSON.stringify(cart)
+        }
+        });
         /* Update line price display and recalc cart totals */
         productRow.children('.subtotal').each(function() {
             $(this).fadeOut(fadeTime, function() {
@@ -225,6 +231,12 @@ screen and (min-width: 641px) and (max-width: 960px) { aside { padding: 0 1rem 0
         var id = $(removeButton).attr('id').slice(3, );
         delete cart[id]
         localStorage.setItem('cart', JSON.stringify(cart));
+        $.ajax({
+        url: '/shop/ajax/cartUpdate/',
+        data: {
+          'cart': JSON.stringify(cart)
+        }
+        });
         productRow.slideUp(fadeTime, function() {
             productRow.remove();
             recalculateCart();
